@@ -13,4 +13,4 @@ import java.util.List;
 public interface ProductAttributeRepository extends JpaRepository<ProductAttributes,Long>{
 
     List<ProductAttributes> findProductAttributesByProductId(Long productId);
-}z
+}
