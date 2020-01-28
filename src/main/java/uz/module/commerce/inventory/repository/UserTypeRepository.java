@@ -14,5 +14,6 @@ import java.util.Optional;
 @Repository
 public interface UserTypeRepository extends JpaRepository<UserType,Long> {
 
-    Optional<UserType> findUserTypeByUsersIn(List<User> users);
+    Optional<UserType> findUserTypeById(Long id);
+
 }
