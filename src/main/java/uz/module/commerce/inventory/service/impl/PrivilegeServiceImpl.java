@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import uz.awesome.java.validation.StringValidation;
 import uz.module.commerce.inventory.exception.CustomException;
 import uz.module.commerce.inventory.model.Privilege;
@@ -17,6 +18,7 @@ import uz.module.commerce.inventory.service.PrivilegeService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PrivilegeServiceImpl implements PrivilegeService{
@@ -59,20 +61,35 @@ public class PrivilegeServiceImpl implements PrivilegeService{
     }
 
     @Override
-    public List<Privilege> findAllPrivileges() throws Exception {
+    public List<PrivilegeDto> findAllPrivileges() throws Exception {
         logger.info("findAllPrivileges -> start");
 
-        return privilegeRepository.findAll();
+        List<Privilege> privileges =  privilegeRepository.findAll();
+
+        if (CollectionUtils.isEmpty(privileges)){
+            return null;
+        }
+
+        return privileges.stream().map(p -> modelMapper.
+                map(p, PrivilegeDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Privilege> findPrivilegesByUserTypeId(Long userTypeId) throws Exception {
+    public List<PrivilegeDto> findPrivilegesByUserTypeId(Long userTypeId) throws Exception {
         logger.info("findAllPrivileges -> findPrivilegesByUserTypeId -> userTypeId: {}", userTypeId);
 
         UserType userType = userTypeRepository.findUserTypeById(userTypeId).
                 orElseThrow(() -> new CustomException(env.getProperty("code_1001", Integer.class),
                         env.getProperty("message_1001")));
 
-        return privilegeRepository.findPrivilegesByUserTypesIn(Collections.singletonList(userType));
+        List<Privilege> privileges =  privilegeRepository.
+                findPrivilegesByUserTypesIn(Collections.singletonList(userType));
+
+        if (CollectionUtils.isEmpty(privileges)){
+            return null;
+        }
+
+        return privileges.stream().map(privilege -> modelMapper.map(privilege, PrivilegeDto.class)).
+                collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package uz.module.commerce.inventory.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.module.commerce.inventory.model.User;
 import uz.module.commerce.inventory.model.UserType;

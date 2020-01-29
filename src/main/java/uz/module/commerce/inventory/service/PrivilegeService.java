@@ -1,6 +1,5 @@
 package uz.module.commerce.inventory.service;
 
-import uz.module.commerce.inventory.model.Privilege;
 import uz.module.commerce.inventory.model.dto.PrivilegeDto;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public interface PrivilegeService {
 
     void deletePrivilegeById(Long id) throws Exception;
 
-    List<Privilege> findAllPrivileges() throws Exception;
+    List<PrivilegeDto> findAllPrivileges() throws Exception;
 
-    List<Privilege> findPrivilegesByUserTypeId(Long userTypeId) throws Exception;
+    List<PrivilegeDto> findPrivilegesByUserTypeId(Long userTypeId) throws Exception;
 }
